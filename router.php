@@ -1,8 +1,8 @@
 <?php
 /**
- * @version     3.0.0
+ * @version     3.5.0
  * @package     com_datsogallery
- * @copyright   Copyright (C) 2015. All rights reserved.
+ * @copyright   Copyright (C) 2004-2016. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Andrey Datso <admin@datso.fr> - http://www.datso.fr
  */
