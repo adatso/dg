@@ -13,17 +13,17 @@ defined('_JEXEC') or die;
 /*function DatsoGalleryBuildRoute(&$query)
 {
        $segments = array();
-       if (isset($query['view']))
+       if (empty($query['view']))
        {
                 $segments[] = $query['view'];
                 unset($query['view']);
        }
-       if (isset($query['catid']))
+       if (empty($query['catid']))
        {
                 $segments[] = getPath($query['catid']);
                 unset($query['catid']);
        }
-       if (isset($query['id']))
+       if (empty($query['id']))
        {
                 $segments[] = getPhoto($query['id']);
                 unset($query['id']);
@@ -88,11 +88,11 @@ function getPath($catid) {
 function DatsoGalleryBuildRoute(&$query) {
   $sef_advanced = 1;
   $segments = array();
-  if (isset ($query['view'])) {
+  if (empty ($query['view'])) {
     $view = $query['view'];
   }
-  if (isset ($view) && ($view == 'category' || $view == 'image') && $sef_advanced) {
-    if (isset ($query['catid'])) {
+  if (empty ($view) && ($view == 'category' || $view == 'image') && $sef_advanced) {
+    if (empty ($query['catid'])) {
       $categories = getCategories($query['catid'],true);
       foreach ($categories as $category) {
         list($tmp,$category) = explode(':',$category,2);
@@ -100,14 +100,14 @@ function DatsoGalleryBuildRoute(&$query) {
       }
       unset ($query['catid']);
     }
-    if (isset ($query['id'])) {
+    if (empty ($query['id'])) {
       $image_alias = getPhoto($query['id']);
       list($tmp,$image_alias) = explode(':',$image_alias,2);
       $segments[] = $image_alias;
       unset ($query['id']);
     }
   }
-  if (isset ($view)) {
+  if (empty ($view)) {
     switch ($query['view']) {
 
       case 'category' :
@@ -121,11 +121,11 @@ function DatsoGalleryBuildRoute(&$query) {
       case 'image' :
         if (!$sef_advanced) {
           $segments[] = 'view-photo';
-          if (isset ($query['catid'])) {
+          if (empty ($query['catid'])) {
             $segments[] = $query['catid'];
             unset ($query['catid']);
           }
-          if (isset ($query['id'])) {
+          if (empty ($query['id'])) {
             $segments[] = $query['id'];
             unset ($query['id']);
           }
@@ -182,21 +182,21 @@ function DatsoGalleryBuildRoute(&$query) {
 
       case 'tag' :
         $segments[] = 'tag';
-        if (isset ($query['tagval']))
+        if (empty ($query['tagval']))
           $segments[] = $query['tagval'];
         unset ($query['tagval']);
         break;
 
       case 'edit' :
         $segments[] = 'edit-photo';
-        if (isset ($query['uid']))
+        if (empty ($query['uid']))
           $segments[] = $query['uid'];
         unset ($query['uid']);
         break;
 
       case 'member' :
         $segments[] = 'images-by';
-        if (isset ($query['id'])) {
+        if (empty ($query['id'])) {
           $username = getUsername($query['id']);
           list($tmp,$username) = explode(':',$username,2);
           $segments[] = $username;
@@ -206,7 +206,7 @@ function DatsoGalleryBuildRoute(&$query) {
 
       case 'profile' :
         $segments[] = 'user-profile';
-        if (isset ($query['userid']))
+        if (empty ($query['userid']))
           $segments[] = $query['userid'];
         unset ($query['userid']);
         break;
@@ -214,11 +214,11 @@ function DatsoGalleryBuildRoute(&$query) {
   }
 
   unset ($query['view']);
-  if (isset ($query['start'])) {
+  if (empty ($query['start'])) {
     $segments[] = 'page-'.$query['start'];
     unset ($query['start']);
   }
-  if (isset ($query['limitstart'])) {
+  if (empty ($query['limitstart'])) {
     unset ($query['limitstart']);
   }
   return $segments;
@@ -237,56 +237,56 @@ function DatsoGalleryParseRoute($segments) {
 
     case 'my-favorites' :
       $vars['view'] = 'favorites';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'popular-photos' :
       $vars['view'] = 'popular';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'best-rated' :
       $vars['view'] = 'rating';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'most-downloaded' :
       $vars['view'] = 'downloads';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'last-added' :
       $vars['view'] = 'lastadded';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'last-commented' :
       $vars['view'] = 'lastcommented';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'search-results' :
       $vars['view'] = 'search';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
 
     case 'my-purchases' :
       $vars['view'] = 'purchases';
-      if (isset ($segments[1])) {
+      if (empty ($segments[1])) {
         $vars['page'] = $segments[1];
       }
       break;
@@ -306,7 +306,7 @@ function DatsoGalleryParseRoute($segments) {
     case 'tag' :
       $vars['view'] = 'tag';
       $vars['tagval'] = $segments[1];
-      if (isset ($segments[2])) {
+      if (empty ($segments[2])) {
         $vars['page'] = $segments[2];
       }
       break;
@@ -326,7 +326,7 @@ function DatsoGalleryParseRoute($segments) {
       $id = $db->loadResult();
       $vars['id'] = $id;
       //$vars['id'] = $segments[1];
-      if (isset ($segments[2])) {
+      if (empty ($segments[2])) {
         $vars['limitstart'] = $segments[2];
       }
       break;
@@ -340,7 +340,7 @@ function DatsoGalleryParseRoute($segments) {
       if (!$sef_advanced) {
         $vars['view'] = 'category';
         $vars['catid'] = $segments[1];
-        if (isset ($segments[2])) {
+        if (empty ($segments[2])) {
           $vars['page'] = $segments[2];
         }
       }
@@ -349,10 +349,10 @@ function DatsoGalleryParseRoute($segments) {
     case 'view-photo' :
       if (!$sef_advanced) {
         $vars['view'] = 'image';
-        if (isset ($segments[1])) {
+        if (empty ($segments[1])) {
           $vars['catid'] = $segments[1];
         }
-        if (isset ($segments[2])) {
+        if (empty ($segments[2])) {
           $vars['id'] = $segments[2];
         }
       }
@@ -374,7 +374,7 @@ function DatsoGalleryParseRoute($segments) {
         $rows = $db->loadObjectList();
         foreach ($rows as $row) {
           if ($row->alias == str_replace(':','-',$segment)) {
-            if (isset ($segments[$count-1])) {
+            if (empty ($segments[$count-1])) {
               $vars['limitstart'] = $segments[$count-1];
             }
             $vars['catid'] = $row->id;
